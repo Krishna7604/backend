@@ -22,6 +22,19 @@ const getASingle=async (req,res)=>{
 //post a workout
 const createWorkout= async (req,res)=>{
     const {title,reps,load}=req.body
+    emptyfield=[]
+    if(!title){
+        emptyfield.push('title')
+    }
+    if(!load){
+        emptyfield.push('load')
+    }
+    if(!reps){
+        emptyfield.push('reps')
+    }
+    if(emptyfield.length >0){
+        return res.status(400).json({error:"please fill in all the details",emptyfield})
+    }
     try{
         const workout= await workoutmodel.create({title,reps,load})
         res.status(200).json(workout)
